@@ -11,9 +11,7 @@
     </router-link>
     <button @click="selectPreviousPart()" class="prev-selector"></button>
     <button @click="selectNextPart()" class="next-selector"></button>
-    {{pinPadding}}
     <span
-      @click="pinPadding='30px'"
       v-pin="{ bottom: pinPadding, right: pinPadding }"
       class="sale"
       v-show="selectedPart.onSale">
