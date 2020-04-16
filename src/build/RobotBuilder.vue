@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import createdHookMixin from './created-hook-mixin';
 import PartSelector from './PartSelector.vue';
 import CollapsibleSection from '../shared/CollapsibleSection.vue';
@@ -59,7 +61,7 @@ import CollapsibleSection from '../shared/CollapsibleSection.vue';
 export default {
   name: 'RobotBuilder',
   created() {
-    this.$store.dispatch('getParts');
+    this.getParts();
   },
   beforeRouteLeave(to, from, next) {
     if (this.addedToCart) {
@@ -88,7 +90,7 @@ export default {
   mixins: [createdHookMixin],
   computed: {
     availableParts() {
-      return this.$store.state.parts;
+      return this.$store.state.robots.parts;
     },
     saleBorderClass() {
       return this.selectedRobot.head.onSale ? 'sale-border' : '';
@@ -102,6 +104,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('robots', ['getParts', 'addRobotToCart']),
     addToCart() {
       const robot = this.selectedRobot;
       const cost = robot.head.cost
@@ -109,7 +112,10 @@ export default {
         + robot.torso.cost
         + robot.rightArm.cost
         + robot.base.cost;
-      this.$store.commit('addRobotToCart', { ...robot, cost });
+      this.addRobotToCart({ ...robot, cost })
+        .then(() => this.$router.push('/cart'));
+      // this.$store.dispatch('robots/addRobotToCart', { ...robot, cost })
+      //   .then(() => this.$router.push('/cart'));
       // this.cart.push({ ...robot, cost });
       this.addedToCart = true;
     },

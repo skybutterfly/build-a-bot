@@ -12,7 +12,7 @@
         <router-link :to="{ name: 'BrowseTorsos' }">Torsos</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'BrowseTorsos' }">Bases</router-link>
+        <router-link :to="{ name: 'BrowseBases' }">Bases</router-link>
       </li>
     </ul>
     <router-view></router-view>
